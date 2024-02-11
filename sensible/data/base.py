@@ -1,17 +1,23 @@
-from abc import ABC, abstractclassmethod
+from typing import Optional
+import pandas as pd
 from pathlib import Path
 from sensible.data.tickers import Ticker
-from sensible.brokers.base import BrokerBase
-from datetime import datetime
 
 
-class DataBase(ABC):
-    def __init__(
-        self, ticker: Ticker, broker: BrokerBase, cache_dir: Path = Path(".cache/")
-    ) -> None:
+class DataBase:
+    def __init__(self, ticker: Ticker, cache_dir: Path = Path(".cache/")) -> None:
         self.ticker: Ticker = ticker
         self.cache_dir: Path = cache_dir
-        self.broker: BrokerBase = broker
+        self._data: Optional[pd.DataFrame] = None
 
-    @abstractclassmethod
-    def get_data(self, start_date: datetime, end_date: datetime) -> None: ...
+    @property
+    def data(self) -> pd.DataFrame:
+        if self._data is None:
+            raise ValueError("Data is not generated")
+        return self._data
+
+    @data.setter
+    def data(self, to_set: pd.DataFrame) -> None:
+        if self._data is not None:
+            raise ValueError("`data` attribute is already set.")
+        self._data = to_set

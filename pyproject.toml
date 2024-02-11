@@ -6,10 +6,13 @@ authors = ["Romil Shah <roshah@umich.edu>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+yfinance = {version = "^0.2.36", extras = ["nospam"]}
 
 [tool.poetry.dev-dependencies]
 black = "^24.1.1"
 isort = "^5.13.2"
+ipykernel = "^6.29.2"
+matplotlib = "^3.8.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
